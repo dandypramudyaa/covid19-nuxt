@@ -24,14 +24,14 @@
       ]
     },
     "types": [
-      "@nuxt/types",
-      "@types/node",
-      "@nuxtjs/axios"
+      // "@nuxt/types",
+      // "@types/node",
+      // "@nuxtjs/axios"
     ]
   },
   "exclude": [
-    // "node_modules",
-    // ".nuxt",
-    // "dist"
+    "node_modules",
+    ".nuxt",
+    "dist"
   ]
 }
