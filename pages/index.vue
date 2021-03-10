@@ -30,6 +30,7 @@
                     </div>
                     <div class="col-sm-12 mt-3">
                       <h3 style="font-weight: 800;">{{ covid.confirmed.value }}</h3>
+                      <h6 style="font-weight: 800; color: #d8d9d8;">test</h6>
                     </div>
                   </div>
                 </div>
@@ -45,6 +46,7 @@
                     </div>
                     <div class="col-sm-12 mt-3">
                       <h3 style="font-weight: 800;">{{ covid.recovered.value }}</h3>
+                      <h6 class="text-success" style="font-weight: 800;">({{ Number(covid.recovered.value / covid.confirmed.value * 100).toFixed(2) }} %)</h6>
                     </div>
                   </div>
                 </div>
@@ -60,6 +62,7 @@
                     </div>
                     <div class="col-sm-12 mt-3">
                       <h3 style="font-weight: 800;">{{ covid.deaths.value }}</h3>
+                      <h6 class="text-danger" style="font-weight: 800;">({{ Number(covid.deaths.value / covid.confirmed.value * 100).toFixed(2) }} %)</h6>
                     </div>
                   </div>
                 </div>
@@ -91,10 +94,12 @@
                       Confirmed Cases
                     </div>
                     <div class="col-sm-4">
+                      <span class="badge bg-warning text-dark">+ {{ indonesiaToday.Confirmed - indonesiaYesterday.Confirmed}}</span>
                       <!-- <span class="badge bg-warning text-dark">+ 8.221</span> -->
                     </div>
                     <div class="col-sm-12 mt-3">
-                      <h3 style="font-weight: 800;">{{ indonesia.confirmed.value }}</h3>
+                      <h3 style="font-weight: 800;">{{ indonesiaData.confirmed.value }}</h3>
+                      <h6 style="font-weight: 800; color: #d8d9d8;">test</h6>
                       <!-- <h3 style="font-weight: 800;">13113</h3> -->
                     </div>
                   </div>
@@ -107,10 +112,12 @@
                       Recovery Cases
                     </div>
                     <div class="col-sm-4">
+                      <span class="badge bg-success text-dark">+ {{ indonesiaToday.Recovered - indonesiaYesterday.Recovered}}</span>
                       <!-- <span class="badge bg-success text-dark">+ 12.389</span> -->
                     </div>
                     <div class="col-sm-12 mt-3">
-                      <h3 style="font-weight: 800;">{{ indonesia.recovered.value }}</h3>
+                      <h3 style="font-weight: 800;">{{ indonesiaData.recovered.value }}</h3>
+                      <h6 class="text-success" style="font-weight: 800;">({{ Number(indonesiaData.recovered.value / indonesiaData.confirmed.value * 100).toFixed(2) }} %)</h6>
                       <!-- <h3 style="font-weight: 800;">12313</h3> -->
                     </div>
                   </div>
@@ -123,40 +130,56 @@
                       Death Cases
                     </div>
                     <div class="col-sm-4">
+                      <span class="badge bg-danger text-dark">+ {{ indonesiaToday.Deaths - indonesiaYesterday.Deaths}}</span>
                       <!-- <span class="badge bg-danger text-dark">+ 2.987</span> -->
                     </div>
                     <div class="col-sm-12 mt-3">
-                      <h3 style="font-weight: 800;">{{ indonesia.deaths.value }}</h3>
+                      <h3 style="font-weight: 800;">{{ indonesiaData.deaths.value }}</h3>
+                      <h6 class="text-danger" style="font-weight: 800;">({{ Number(indonesiaData.deaths.value / indonesiaData.confirmed.value * 100).toFixed(2) }} %)</h6>
                       <!-- <h3 style="font-weight: 800;">123</h3> -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <h5 class="mt-4">Last Update : {{ covid.lastUpdate }}</h5>
+            <h5 class="mt-4">Last Update : {{ lastUpdate }}</h5>
+            <!-- <h5 class="mt-4">Last Update : {{ covid.lastUpdate }}</h5> -->
           </div>
         </main>
         <h5 style="text-align: center;">API From <a href="https://github.com/mathdroid/covid-19-api">https://github.com/mathdroid/covid-19-api</a></h5>
         <!-- End: Main -->
 
         </div>
-        <h6 style="text-align: center; margin-top: -20px">Covid-19 App version 1.0 | Github Repository from <a href="https://github.com/dandypramudyaa/covid19-nuxt">Dandy Pramudya</a> | Design from Dinda Alfhia</h6>
+        <h6 style="text-align: center; margin-top: -20px">Covid-19 App version 1.1.0 | Github Repository from <a href="https://github.com/dandypramudyaa/covid19-nuxt">Dandy Pramudya</a> | Design from Dinda Alfhia</h6>
     </div>
 
 </template>
 
 <script  lang="ts">
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
     async asyncData() {
+        const today = moment().format('YYYY-MM-DD');
+        const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+        // const api = "https://api.covid19api.com/country/indonesia?from=" + yesterday + "&to=" + today
+        const api = "https://api.covid19api.com/country/indonesia?from=2021-03-09&to=2021-03-10"
         const covid = await axios.get(
             `https://covid19.mathdro.id/api`
         );
         const indonesia = await axios.get(
+            // `https://covid19.mathdro.id/api/countries/Indonesia`
+            api
+        );
+        const indonesiaData = await axios.get(
             `https://covid19.mathdro.id/api/countries/Indonesia`
         );
-        return { covid: covid.data, indonesia: indonesia.data };
+        console.log(api);
+        console.log(indonesia.data[1]);
+        const getLastUpdate = covid.data.lastUpdate;
+        const lastUpdate = moment(getLastUpdate).format('DD-MM-YYYY hh:mm');
+        return { covid: covid.data, indonesiaYesterday: indonesia.data[0], indonesiaToday: indonesia.data[1], indonesiaData: indonesiaData.data, lastUpdate };
         // const { data } = await axios.get('https://covid19.mathdro.id/api')  
         // return {covid: data}
     },

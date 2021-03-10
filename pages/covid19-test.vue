@@ -96,6 +96,7 @@
                     </div>
                     <div class="col-sm-12 mt-3">
                       <h3 style="font-weight: 800;">{{ indonesiaData.confirmed.value }}</h3>
+                      <h6 style="font-weight: 800; color: #d8d9d8;">test</h6>
                       <!-- <h3 style="font-weight: 800;">13113</h3> -->
                     </div>
                   </div>
@@ -113,6 +114,7 @@
                     </div>
                     <div class="col-sm-12 mt-3">
                       <h3 style="font-weight: 800;">{{ indonesiaData.recovered.value }}</h3>
+                      <h6 class="text-success" style="font-weight: 800;">({{ Number(indonesiaData.recovered.value / indonesiaData.confirmed.value * 100).toFixed(2) }} %)</h6>
                       <!-- <h3 style="font-weight: 800;">12313</h3> -->
                     </div>
                   </div>
@@ -130,6 +132,7 @@
                     </div>
                     <div class="col-sm-12 mt-3">
                       <h3 style="font-weight: 800;">{{ indonesiaData.deaths.value }}</h3>
+                      <h6 class="text-danger" style="font-weight: 800;">({{ Number(indonesiaData.deaths.value / indonesiaData.confirmed.value * 100).toFixed(2) }} %)</h6>
                       <!-- <h3 style="font-weight: 800;">123</h3> -->
                     </div>
                   </div>
