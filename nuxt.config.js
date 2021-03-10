@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'covid-19',
+    title: 'Covid-19 App',
     htmlAttrs: {
       lang: 'en'
     },
